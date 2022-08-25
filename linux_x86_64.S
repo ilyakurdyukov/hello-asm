@@ -22,10 +22,6 @@
 #define _base (_elf - 0x400000)
 #endif
 
-.macro db a:vararg
-	.byte \a
-.endm
-
 _code_seg:
 _elf:	.byte 0x7f
 	.ascii "ELF"
