@@ -1,5 +1,5 @@
 # -*- tab-width: 8 -*-
-# cc -m64 hello_x86_64.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+# cc -m64 linux_x86_64.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
 
 	.intel_syntax noprefix
 	.text
@@ -47,17 +47,17 @@ _elf:	.byte 0x7f
 	.quad 0x1000			# p_align
 
 _hello:	.ascii "Hello, World!\n"
-_hello_end:
+_hello_len = . - _hello
 
 	.align 8, 0
 _start:
-	mov	edx, _hello_end - _hello
+	mov	edx, _hello_len
 #if PIE
 	lea	rsi, [rip + _hello]
 #else
 	mov	esi, _hello - _base
 #endif
-	mov	edi, 1		# 1 (stdout)
+	mov	edi, 1		# stdout
 	mov	eax, SYS_write
 	syscall
 

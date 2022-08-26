@@ -6,9 +6,10 @@ See the comments for build instructions.
 
 ### Linux
 
-[linux_x86.S](linux_x86.S)  
-[linux_x86_64.S](linux_x86_64.S)  
-[linux_e2k_64.S](linux_e2k_64.S)  
+[x86 (gnu as)](linux_x86.S)  
+[x86_64 (gnu as)](linux_x86_64.S)  
+[aarch64 (gnu as)](linux_aarch64.S)  
+[e2k_64 (gnu as)](linux_e2k_64.S)  
 
 ### Windows
 

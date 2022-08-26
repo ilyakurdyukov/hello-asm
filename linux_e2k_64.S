@@ -1,5 +1,5 @@
 ! -*- tab-width: 8 -*-
-! cc -m64 -march=elbrus-v3 hello_e2k.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+! cc -m64 -march=elbrus-v3 linux_e2k_64.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
 
 	.ignore ld_st_style
 	.ignore strict_delay
@@ -51,7 +51,7 @@ _elf:	.byte 0x7f
 	.uadword 0x1000			! p_align
 
 _hello:	.ascii "Hello, World!\n"
-_hello_end:
+_hello_len = . - _hello
 
 	ALIGN 8
 _start:
@@ -70,13 +70,13 @@ _rrd:	{
 	  nop 4
 	  sdisp %ctpr1, 3; ipd 2
 	  addd 0, SYS_write, %b[0]
-	  addd 0, 1, %b[1]
+	  addd 0, 1, %b[1]		! stdout
 #if PIE
 	  addd %r0, _hello - _rrd, %b[2]
 #else
 	  addd 0, _hello - _base, %b[2]
 #endif
-	  addd 0, _hello_end - _hello, %b[3]
+	  addd 0, _hello_len, %b[3]
 	}
 	{
 	  call %ctpr1, wbs = 4; ipd 3

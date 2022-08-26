@@ -1,5 +1,5 @@
 # -*- tab-width: 8 -*-
-# cc -m32 hello_x86.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+# cc -m32 linux_x86.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
 
 	.intel_syntax noprefix
 	.text
@@ -9,6 +9,7 @@
 #endif
 
 # args: eax ebx ecx edx esi edi ebp
+# ret: eax edx
 
 #define SYS_exit 1
 #define SYS_read 3
@@ -46,7 +47,7 @@ _elf:	.byte 0x7f
 	.long 5, 0x1000			# p_flags, p_align
 
 _hello:	.ascii "Hello, World!\n"
-_hello_end:
+_hello_len = . - _hello
 
 	.align 8, 0
 _start:
@@ -56,13 +57,13 @@ _start:
 _ip:	pop	ebp
 #endif
 
-	mov	edx, _hello_end - _hello
+	mov	edx, _hello_len
 #if PIE
 	lea	ecx, [ebp + (_hello - _ip)]
 #else
 	mov	ecx, _hello - _base
 #endif
-	mov	ebx, 1		# 1 (stdout)
+	mov	ebx, 1		# stdout
 	mov	eax, SYS_write
 	int	0x80
 
