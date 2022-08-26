@@ -13,4 +13,6 @@ See the comments for build instructions.
 
 ### Windows
 
-todo
+[x86 (nasm)](windows_x86.S)  
+[x86_64 (nasm)](windows_x86_64.S)  
+
