@@ -28,7 +28,7 @@ _elf:	.byte 0x7f
 	.byte 2,1,1,0		// e_ident
 	.xword 0
 	.hword 2 + PIE		// e_type
-	.hword 183		// e_machine
+	.hword 183		// e_machine (EM_AARCH64)
 	.word 1			// e_version
 	.xword _start - _base	// e_entry
 	.xword .ph - _elf	// e_phoff
@@ -39,7 +39,7 @@ _elf:	.byte 0x7f
 	.hword 0x40, 0		// e_shentsize, e_shnum
 	.hword 0		// e_shstrndx
 .ph:	.word 1, 5		// p_type, p_flags
-	.xword 0			// p_offset
+	.xword 0		// p_offset
 	.xword _code_seg - _base	// p_vaddr
 	.xword _code_seg - _base	// p_paddr
 	.xword _code_end - _code_seg	// p_filesz

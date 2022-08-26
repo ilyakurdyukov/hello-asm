@@ -32,7 +32,7 @@ _elf:	.byte 0x7f
 	.byte 2,1,1,0			! e_ident
 	.uadword 0
 	.uahalf 2 + PIE			! e_type
-	.uahalf 175			! e_machine
+	.uahalf 175			! e_machine (EM_MCST_ELBRUS)
 	.uaword 1			! e_version
 	.uadword _start - _base		! e_entry
 	.uadword .ph - _elf		! e_phoff

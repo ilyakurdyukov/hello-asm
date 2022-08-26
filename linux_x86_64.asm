@@ -26,7 +26,7 @@ _code_seg:
 _elf:	db 0x7f,'ELF',2,1,1,0	; e_ident
 	dq 0
 	dw 2 + PIE		; e_type
-	dw 62			; e_machine
+	dw 62			; e_machine (EM_X86_64)
 	dd 1			; e_version
 	dq _start		; e_entry
 	dq .ph-_elf		; e_phoff

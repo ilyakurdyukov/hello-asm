@@ -28,7 +28,7 @@ _elf:	.byte 0x7f
 	.byte 1,1,1,0		# e_ident
 	.quad 0
 	.short 2 + PIE		# e_type
-	.short 3		# e_machine
+	.short 3		# e_machine (EM_386)
 	.long 1			# e_version
 	.long _start - _base	# e_entry
 	.long .ph - _elf	# e_phoff
