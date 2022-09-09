@@ -1,5 +1,6 @@
 ! -*- tab-width: 8 -*-
 ! cc -m32 -march=elbrus-v3 linux_e2k_32.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+! cc -E linux_e2k_32.S -o hello.s && as -mptr32 -mcpu=elbrus-v3 hello.s -o hello.o && ...
 
 	.ignore ld_st_style
 	.ignore strict_delay
