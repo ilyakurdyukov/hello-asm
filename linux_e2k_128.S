@@ -26,7 +26,8 @@
 	.zero (_elf - .) & (\n - 1)
 .endm
 
-_rodata:
+#define CODE_VA(x) (x - _base + ((_rodata_end - _elf + 0xfff) & -0x1000))
+
 _elf:	.byte 0x7f
 	.ascii "ELF"
 	.byte 2,1,1,0			! e_ident
@@ -34,7 +35,7 @@ _elf:	.byte 0x7f
 	.uahalf 2 + PIE			! e_type
 	.uahalf 175			! e_machine (EM_MCST_ELBRUS)
 	.uaword 1			! e_version
-	.uadword _start - _base		! e_entry
+	.uadword CODE_VA(_start)	! e_entry
 	.uadword .ph - _elf		! e_phoff
 	.uadword 0			! e_shoff
 	.uaword (__iset__ << 24) | 0x60	! e_flags (min arch version)
@@ -45,26 +46,25 @@ _elf:	.byte 0x7f
 .ph:
 	.uaword 1, 4			! p_type, p_flags
 	.uadword 0			! p_offset
-	.uadword _rodata - _base	! p_vaddr
-	.uadword _rodata - _base	! p_paddr
-	.uadword _rodata_end - _rodata	! p_filesz
-	.uadword _rodata_end - _rodata	! p_memsz
+	.uadword _elf - _base		! p_vaddr
+	.uadword _elf - _base		! p_paddr
+	.uadword _rodata_end - _elf	! p_filesz
+	.uadword _rodata_end - _elf	! p_memsz
 	.uadword 0x1000			! p_align
 
 	.uaword 1, 5			! p_type, p_flags
-	.uadword _code_seg - _elf	! p_offset
-	.uadword _code_seg - _base	! p_vaddr
-	.uadword _code_seg - _base	! p_paddr
-	.uadword _code_end - _code_seg	! p_filesz
-	.uadword _code_end - _code_seg	! p_memsz
+	.uadword 0			! p_offset
+	.uadword CODE_VA(_elf) 		! p_vaddr
+	.uadword CODE_VA(_elf)		! p_paddr
+	.uadword _code_end - _elf	! p_filesz
+	.uadword _code_end - _elf	! p_memsz
 	.uadword 0x1000			! p_align
 
 _hello:	.ascii "Hello, World!\n"
 _hello_len = . - _hello
 _rodata_end:
 
-	ALIGN 0x1000
-_code_seg:
+	ALIGN 8
 _start:
 	{
 	  setwd wsz = 16, nfx = 1, dbl = 0
