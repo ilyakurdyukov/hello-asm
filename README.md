@@ -10,6 +10,7 @@ See the comments for build instructions.
 [x86_64 (gnu as)](linux_x86_64.S)  
 [arm (gnu as)](linux_arm.S)  
 [aarch64 (gnu as)](linux_aarch64.S)  
+[e2k_32 (gnu as)](linux_e2k_32.S)  
 [e2k_64 (gnu as)](linux_e2k_64.S)  
 
 [x86 (nasm)](linux_x86.asm)  
