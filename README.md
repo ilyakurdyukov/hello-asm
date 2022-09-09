@@ -6,8 +6,8 @@ See the comments for build instructions.
 
 ### Linux
 
-[x86 (gnu as)](linux_x86.S)  
-[x86_64 (gnu as)](linux_x86_64.S)  
+[x86 (gnu as)](linux_x86.s)  
+[x86_64 (gnu as)](linux_x86_64.s)  
 [arm (gnu as)](linux_arm.S)  
 [aarch64 (gnu as)](linux_aarch64.S)  
 [e2k_32 (gnu as)](linux_e2k_32.S)  
