@@ -1,26 +1,27 @@
 # -*- tab-width: 8 -*-
-# cc -m32 linux_x86.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+# cc -m32 linux_x86.s -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+# as --32 linux_x86.s -o hello.o && ...
 
 	.intel_syntax noprefix
 	.text
 
-#ifndef PIE
-#define PIE 1
-#endif
+.ifndef PIE
+PIE = 1
+.endif
 
 # args: eax ebx ecx edx esi edi ebp
 # ret: eax edx
 
-#define SYS_exit 1
-#define SYS_read 3
-#define SYS_write 4
-#define SYS_mmap 90
+SYS_exit = 1
+SYS_read = 3
+SYS_write = 4
+SYS_mmap = 90
 
-#if PIE
-#define _base _elf
-#else
-#define _base (_elf - 0x400000)
-#endif
+.if PIE
+_base = _elf
+.else
+_base = _elf - 0x400000
+.endif
 
 _code_seg:
 _elf:	.byte 0x7f
@@ -52,17 +53,17 @@ _hello_len = . - _hello
 	.align 8, 0
 _start:
 
-#if PIE
+.if PIE
 	call	_ip
 _ip:	pop	ebp
-#endif
+.endif
 
 	mov	edx, _hello_len
-#if PIE
+.if PIE
 	lea	ecx, [ebp + (_hello - _ip)]
-#else
+.else
 	mov	ecx, _hello - _base
-#endif
+.endif
 	mov	ebx, 1		# stdout
 	mov	eax, SYS_write
 	int	0x80
