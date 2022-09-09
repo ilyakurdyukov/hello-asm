@@ -1,26 +1,27 @@
 # -*- tab-width: 8 -*-
-# cc -m64 linux_x86_64.S -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+# cc -m64 linux_x86_64.s -c -o hello.o && objcopy -O binary hello.o hello && chmod +x hello
+# as --64 linux_x86_64.s -o hello.o && ...
 
 	.intel_syntax noprefix
 	.text
 
-#ifndef PIE
-#define PIE 1
-#endif
+.ifndef PIE
+PIE = 1
+.endif
 
 # args: rax rdi rsi rdx r10 r8 r9
 # clobbers: rcx r10
 
-#define SYS_read 0
-#define SYS_write 1
-#define SYS_mmap 9
-#define SYS_exit 60
+SYS_read = 0
+SYS_write = 1
+SYS_mmap = 9
+SYS_exit = 60
 
-#if PIE
-#define _base _elf
-#else
-#define _base (_elf - 0x400000)
-#endif
+.if PIE
+_base = _elf
+.else
+_base = _elf - 0x400000
+.endif
 
 _code_seg:
 _elf:	.byte 0x7f
@@ -52,11 +53,11 @@ _hello_len = . - _hello
 	.align 8, 0
 _start:
 	mov	edx, _hello_len
-#if PIE
+.if PIE
 	lea	rsi, [rip + _hello]
-#else
+.else
 	mov	esi, _hello - _base
-#endif
+.endif
 	mov	edi, 1		# stdout
 	mov	eax, SYS_write
 	syscall
