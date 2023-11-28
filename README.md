@@ -13,6 +13,7 @@ See the comments for build instructions.
 [e2k_32 (gnu as)](linux_e2k_32.S)  
 [e2k_64 (gnu as)](linux_e2k_64.S)  
 [e2k_128 (gnu as)](linux_e2k_128.S)  
+[loongarch64 (gnu as)](linux_loongarch64.S)  
 
 [x86 (nasm)](linux_x86.asm)  
 [x86_64 (nasm)](linux_x86_64.asm)  
